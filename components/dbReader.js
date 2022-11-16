@@ -17,7 +17,7 @@ module.exports.readDB = function(data) {
 
       if (data[i] == "<") stream = true;
     }
-
+    
     return DIVIDED_DB;
   } catch (e) {
     console.log(e);
@@ -47,6 +47,7 @@ module.exports.readTable = function (data) {
         if (data[i][j] == "!") streamTitle = true;
 
         if (data[i][j] == "-") {
+          splitItems.push(items.join(''))
           items = [];
           streamItems = false;
         }
