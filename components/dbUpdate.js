@@ -1,13 +1,16 @@
 const read = require("./dbReader");
+const write = require("./dbWriter");
 const fs = require("fs");
 
-module.exports.deleteTable = function (databaseName, tableName) {
+module.exports.updateTable = function (databaseName, tableName, newTableName, items) {
 
     data = fs.readFileSync(databaseName).toString()
     data = data.replace(/\s+/g, "");
 
     removeTable = read.readWhere(databaseName,tableName)
-    data = data.replace(removeTable, '')
+    newTable = write.writeDB(newTableName, items)
+
+    data = data.replace(removeTable, newTable)
 
     return fs.writeFileSync(databaseName, data)
 };
