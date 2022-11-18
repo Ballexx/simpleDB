@@ -2,15 +2,19 @@ const read = require("./dbReader");
 const write = require("./dbWriter");
 const fs = require("fs");
 
-module.exports.updateTable = function (databaseName, tableName, newTableName, items) {
+module.exports.updateTable = function (
+	databaseName,
+	tableName,
+	newTableName,
+	items
+) {
+	data = fs.readFileSync(databaseName).toString();
+	data = data.replace(/\s+/g, "");
 
-    data = fs.readFileSync(databaseName).toString()
-    data = data.replace(/\s+/g, "");
+	removeTable = read.readTableWhere(databaseName, tableName);
+	newTable = write.writeDB(newTableName, items);
 
-    removeTable = read.readWhere(databaseName,tableName)
-    newTable = write.writeDB(newTableName, items)
+	data = data.replace(removeTable, newTable);
 
-    data = data.replace(removeTable, newTable)
-
-    return fs.writeFileSync(databaseName, data)
+	return fs.writeFileSync(databaseName, data);
 };

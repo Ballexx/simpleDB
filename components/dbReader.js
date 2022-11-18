@@ -1,4 +1,5 @@
 const fs = require("fs");
+const { join } = require("path");
 
 module.exports.readDB = function (data) {
 	let stream = false;
@@ -72,11 +73,11 @@ module.exports.readDB = function (data) {
 	}
 };
 
-module.exports.readWhere = function (databaseName, tableName) {
+module.exports.readTableWhere = function (databaseName, tableName) {
 	let data = fs.readFileSync(databaseName).toString();
 	data = data.replace(/\s+/g, "");
 	findIndex = data.indexOf(`!${tableName}?`);
-  
+
 	if (findIndex == -1) return console.log("Table does not exist");
 
 	let table = [];
@@ -86,4 +87,31 @@ module.exports.readWhere = function (databaseName, tableName) {
 		if (data[i] == ">") break;
 	}
 	return table.join("");
+};
+
+module.exports.readRowWhere = function (databaseName, rowName) {
+	let data = fs.readFileSync(databaseName).toString();
+	data = data.replace(/\s+/g, "");
+  findIndex = data.indexOf(`"${rowName}":`);
+
+  let stream = false
+
+  let streamedRow = []
+  let joinRow = []
+
+  for(i = 0; i<data.length; i++){
+    if(i == findIndex) stream = true
+    
+    if(stream){
+      streamedRow.push(data[i]);
+      if (data[i] == ","){
+        streamedRow[streamedRow.length-1] = null
+        joinRow.push(streamedRow.join(''))
+        streamedRow = []
+        findIndex = data.indexOf(`"${rowName}":`, findIndex + 1);
+        stream = false
+      }
+    }
+  }
+  return joinRow
 };
