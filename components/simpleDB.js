@@ -8,3 +8,4 @@ module.exports.updateTable = function(databasename, tableName, newTableName, ite
 module.exports.createDB = function(databasename){return dbCommands.createDB(databasename)}
 module.exports.readTableWhere = function(databasename, tableName){return dbCommands.readTableWhere(databasename, tableName)}
 module.exports.readRowWhere = function(databasename, rowName){return dbCommands.readRowWhere(databasename, rowName)}
+module.exports.updateRowWhere = function(databasename, rowName, rowItem, replaceItem){return dbCommands.updateRowWhere(databasename, rowName, rowItem, replaceItem)}

@@ -59,3 +59,11 @@ module.exports.updateTable = function (
 module.exports.deleteRows = function (databaseName, rowName) {
 	return remove.deleteRows(databaseName, rowName);
 };
+module.exports.updateRowWhere = function (
+	databaseName,
+	rowName,
+	rowItem,
+	replaceItem
+) {
+	return update.updateRowWhere(databaseName, rowName, rowItem, replaceItem);
+};

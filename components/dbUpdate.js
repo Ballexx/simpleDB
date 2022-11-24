@@ -8,13 +8,29 @@ module.exports.updateTable = function (
 	newTableName,
 	items
 ) {
-	data = fs.readFileSync(databaseName).toString();
+	let data = fs.readFileSync(databaseName).toString();
 	data = data.replace(/\s+/g, "");
 
-	removeTable = read.readTableWhere(databaseName, tableName);
+	oldTable = read.readTableWhere(databaseName, tableName);
 	newTable = write.writeDB(newTableName, items);
 
-	data = data.replace(removeTable, newTable);
+	data = data.replace(oldTable, newTable);
 
-	return fs.writeFileSync(databaseName, data);
+	
 };
+
+module.exports.updateRowWhere = function(databaseName, rowName, rowItem, replaceItem){
+    let data = fs.readFileSync(databaseName).toString();
+	data = data.replace(/\s+/g, "");
+    
+    findRow = read.readRowWhere(databaseName, rowName);
+
+    for(i = 0; i<findRow.length; i++){
+        if(findRow[i].includes(rowItem)){
+            data = data.replace(rowItem, replaceItem)
+        }
+    }
+
+    return fs.writeFileSync(databaseName, data);
+
+}

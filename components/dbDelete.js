@@ -15,11 +15,11 @@ module.exports.deleteRows = function (databaseName, rowName) {
 	data = fs.readFileSync(databaseName).toString();
 	data = data.replace(/\s+/g, "");
 
-    removeInstance = read.readRowWhere(databaseName, rowName);
-    
-    for(i = 0; i<removeInstance.length;i++){
-        data = data.replace(`${removeInstance[i]},`, '')
-    }
+	removeInstance = read.readRowWhere(databaseName, rowName);
+
+	for (i = 0; i < removeInstance.length; i++) {
+		data = data.replace(`${removeInstance[i]},`, "");
+	}
 
 	return fs.writeFileSync(databaseName, data);
 };
