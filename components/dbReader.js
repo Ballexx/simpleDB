@@ -1,5 +1,4 @@
 const fs = require("fs");
-const { join } = require("path");
 
 module.exports.readDB = function (data) {
 	let stream = false;
